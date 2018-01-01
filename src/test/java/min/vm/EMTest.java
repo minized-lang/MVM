@@ -3,7 +3,8 @@ package min.vm;
 import org.junit.Test;
 
 public class EMTest {
-    EMTest() {}
+    EMTest() {
+    }
 
     @Test
     public void doTest() {
