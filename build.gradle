@@ -12,3 +12,35 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
+
+String jarDir = "$buildDir/tmp/jar/"
+task copyLicense {
+    outputs.file new File("$jarDir/LICENSE")
+    doLast {
+        copy {
+            from "LICENSE"
+            into jarDir
+        }
+    }
+}
+
+configurations {
+    artifact
+}
+
+dependencies {
+    configurations.compile.extendsFrom(configurations.artifact)
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'min.vm.Main'
+    }
+    from {
+        configurations
+                .artifact
+                .collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
